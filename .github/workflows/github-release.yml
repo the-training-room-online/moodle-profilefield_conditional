@@ -1,9 +1,6 @@
 name: Release installable Zip archive on GitHub
 
 on:
-  push:
-    tags:
-      - v*
   workflow_dispatch:
     branches: ['*']
 
