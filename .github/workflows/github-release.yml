@@ -1,8 +1,10 @@
-name: Release installable Zip archive on GitHub
+name: Release to GitHub
 
 on:
-  workflow_dispatch:
-    branches: ['*']
+  push:
+    tags:
+      - v*
+  workflow_dispatch: {}
 
 jobs:
   release:
@@ -17,19 +19,19 @@ jobs:
 
       - name: Build Zip archive
         run: |
-          make build
-          export PLUGINTYPE=local
-          export PLUGINNAME=enrolmentrecords
+          export PLUGINTYPE=profilefield
+          export PLUGINNAME=conditional
           export MOODLEVERSION=39
           export ARCHIVENAME=${PLUGINTYPE}_${PLUGINNAME}_moodle${MOODLEVERSION}_${GITHUB_REF_NAME:1}.zip
-          zip -r $ARCHIVENAME build --exclude="*.git/*" --exclude="*.github/*"
-          mkdir artifacts
-          mv $ARCHIVENAME artifacts
+          cd ..
+          zip -r $ARCHIVENAME moodle-${PLUGINTYPE}_${PLUGINNAME} --exclude="*.git/*" --exclude="*.github/*"
+          mkdir moodle-${PLUGINTYPE}_${PLUGINNAME}/build/
+          mv $ARCHIVENAME moodle-${PLUGINTYPE}_${PLUGINNAME}/build/
 
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ${ARCHIVENAME}
+          artifacts: build/*
           artifactContentType: application/zip
-          body: |
-            Release to GitHub.
+          artifactErrorsFailBuild: true
+          omitBody: true

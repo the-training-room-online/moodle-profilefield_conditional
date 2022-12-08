@@ -4,7 +4,7 @@
 #
 # revision: 2021070201
 #
-name: Releasing in the Plugins directory
+name: Release to Moodle
 
 on:
   push:
