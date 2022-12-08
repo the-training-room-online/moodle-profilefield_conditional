@@ -19,15 +19,12 @@ jobs:
 
       - name: Build Zip archive
         run: |
-          ls -l
-          pwd
           export PLUGINTYPE=profilefield
           export PLUGINNAME=conditional
           export MOODLEVERSION=39
           export ARCHIVENAME=${PLUGINTYPE}_${PLUGINNAME}_moodle${MOODLEVERSION}_${GITHUB_REF_NAME:1}.zip
-          zip -r $ARCHIVENAME build --exclude="*.git/*" --exclude="*.github/*"
-          mkdir artifacts
-          mv $ARCHIVENAME artifacts
+          cd ..
+          zip -r $ARCHIVENAME moodle-profilefield_conditional --exclude="*.git/*" --exclude="*.github/*"
 
       - name: Create Release
         uses: ncipollo/release-action@v1
