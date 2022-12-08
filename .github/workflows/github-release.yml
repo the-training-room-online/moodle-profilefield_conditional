@@ -24,12 +24,15 @@ jobs:
           export MOODLEVERSION=39
           export ARCHIVENAME=${PLUGINTYPE}_${PLUGINNAME}_moodle${MOODLEVERSION}_${GITHUB_REF_NAME:1}.zip
           cd ..
-          zip -r $ARCHIVENAME moodle-profilefield_conditional --exclude="*.git/*" --exclude="*.github/*"
+          zip -r $ARCHIVENAME moodle-${PLUGINTYPE}_${PLUGINNAME} --exclude="*.git/*" --exclude="*.github/*"
+          mkdir moodle-${PLUGINTYPE}_${PLUGINNAME}/build/
+          mv $ARCHIVENAME moodle-${PLUGINTYPE}_${PLUGINNAME}/build/
 
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ${ARCHIVENAME}
+          name: ${GITHUB_REF_NAME:1}
+          artifacts: build/*
           artifactContentType: application/zip
-          body: |
-            Release to GitHub.
+          artifactErrorsFailBuild: true
+          omitBody: true
