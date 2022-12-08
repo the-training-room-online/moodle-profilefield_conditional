@@ -1,0 +1,39 @@
+name: Release installable Zip archive on GitHub
+
+on:
+  push:
+    tags:
+      - v*
+  workflow_dispatch:
+    tags:
+      - v*
+
+jobs:
+  release:
+    # Avoid forks to perform this job.
+    if: github.repository_owner == 'the-training-room-online'
+    name: Create Release
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Build Zip archive
+        run: |
+          make build
+          export PLUGINTYPE=local
+          export PLUGINNAME=enrolmentrecords
+          export MOODLEVERSION=39
+          export ARCHIVENAME=${PLUGINTYPE}_${PLUGINNAME}_moodle${MOODLEVERSION}_${GITHUB_REF_NAME:1}.zip
+          zip -r $ARCHIVENAME build --exclude="*.git/*" --exclude="*.github/*"
+          mkdir artifacts
+          mv $ARCHIVENAME artifacts
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: ${ARCHIVENAME}
+          artifactContentType: application/zip
+          body: |
+            Release to GitHub.
