@@ -5,8 +5,7 @@ on:
     tags:
       - v*
   workflow_dispatch:
-    tags:
-      - v*
+    branches: ['*']
 
 jobs:
   release:
