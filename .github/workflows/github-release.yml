@@ -19,7 +19,6 @@ jobs:
 
       - name: Build Zip archive
         run: |
-          make build
           export PLUGINTYPE=local
           export PLUGINNAME=enrolmentrecords
           export MOODLEVERSION=39
