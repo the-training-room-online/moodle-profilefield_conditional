@@ -20,6 +20,7 @@ jobs:
       - name: Build Zip archive
         run: |
           ls -l
+          pwd
           export PLUGINTYPE=profilefield
           export PLUGINNAME=conditional
           export MOODLEVERSION=39
