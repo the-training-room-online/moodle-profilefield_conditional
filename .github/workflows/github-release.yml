@@ -1,4 +1,4 @@
-name: Release installable Zip archive on GitHub
+name: Release to GitHub
 
 on:
   push:
@@ -19,8 +19,9 @@ jobs:
 
       - name: Build Zip archive
         run: |
-          export PLUGINTYPE=local
-          export PLUGINNAME=enrolmentrecords
+          ls -l
+          export PLUGINTYPE=profilefield
+          export PLUGINNAME=conditional
           export MOODLEVERSION=39
           export ARCHIVENAME=${PLUGINTYPE}_${PLUGINNAME}_moodle${MOODLEVERSION}_${GITHUB_REF_NAME:1}.zip
           zip -r $ARCHIVENAME build --exclude="*.git/*" --exclude="*.github/*"
