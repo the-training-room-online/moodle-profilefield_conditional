@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Conditional profile field version information.
+ * Definition of core event observers.
  *
  * @package    profilefield_conditional
+ * @category   event
  * @copyright  2014 Shamim Rezaie {@link http://foodle.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'profilefield_conditional'; // Full name of the plugin (used for diagnostics).
-$plugin->version   = 2022120705;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2020061500;        // Requires this Moodle version.
-$plugin->supported = [39, 39];
-$plugin->dependencies = array('profilefield_menu' => ANY_VERSION);
+$observers = [[
+    'eventname' => \core\event\user_updated::class,
+    'callback' => '\profilefield_conditional\event\observe_user_updated::execute',
+]];
